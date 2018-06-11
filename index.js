@@ -4,17 +4,18 @@ let appInsights = require('applicationinsights');
 
 var index = fs.readFileSync('index.html');
 var port = process.env.PORT || 1337;
-console.log("Start appInsights");
+console.info("Start appInsights");
 try {
     appInsights.setup().start();
 }
 catch(e) {
     console.error(e);
 }
-console.log(`Starting server in port ${port}. Open a browser in http://localhost:${port}`);
+
+console.info(`Starting server in port ${port}. Open a browser in http://localhost:${port}`);
 
 http.createServer(function (req, res) {
-    console.log("Serve index.html");
+    console.info("Serve index.html");
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end(index);
 }).listen(port);

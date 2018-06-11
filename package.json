@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/jmservera/simplelogger/issues"
   },
-  "homepage": "https://github.com/jmservera/simplelogger#readme"
+  "homepage": "https://github.com/jmservera/simplelogger#readme",
+  "dependencies": {
+    "applicationinsights": "^1.0.3"
+  }
 }

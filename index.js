@@ -2,7 +2,7 @@ var http = require('http');
 var fs = require('fs');
 let appInsights = require('applicationinsights');
 
-var index = fs.readFileSync('index.html');
+var index = fs.readFileSync('idx.html');
 var port = process.env.PORT || 1337;
 console.info("Start appInsights");
 try {

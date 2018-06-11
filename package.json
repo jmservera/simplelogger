@@ -1,26 +1,17 @@
 {
   "name": "simplelog",
-  "version": "0.0.1",
-  "description": "A simple logger",
-  "main": "bin/server.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "start": "node ./bin/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jmservera/simplelogger.git"
-  },
-  "keywords": [
-    "log"
-  ],
-  "author": "jmservera",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jmservera/simplelogger/issues"
-  },
-  "homepage": "https://github.com/jmservera/simplelogger#readme",
   "dependencies": {
-    "applicationinsights": "^1.0.3"
+    "applicationinsights": "^1.0.3",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "pug": "2.0.0-beta11"
   }
 }

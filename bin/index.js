@@ -1,10 +1,13 @@
 var http = require('http');
 var fs = require('fs');
+var path= require('path');
+
 let appInsights = require('applicationinsights');
 
-var index = fs.readFileSync('idx.html');
+var index = fs.readFileSync(path.join(__dirname,'templates/index.html'));
 var port = process.env.PORT || 1337;
 console.info("Start appInsights");
+console.info(`Starting in ${__dirname}`);
 try {
     appInsights.setup().start();
 }

@@ -11,16 +11,19 @@ router.get('/', function (req, res, next) {
     var parser = parse({ delimiter: ';' });
     var input = fs.createReadStream('./calls.log');
     input.pipe(parser).on("data", function (data) {
+      ip=data[1].split(':')[0];
+      if(ip==""){
+        ip=data[1];
+      }
       var a={
         date:new Date(data[0]),
-        ip:data[1],
+        ip:ip,
         agent:data[2]
       }
       list.push(a);
     }).on("end", function () {
-      console.log("rendering page");
-      res.render('index', { title: 'Express', values: list });
-      console.log("file parsed");
+      list.sort(function(a,b){return b.date-a.date;});
+      res.render('index', { title: 'Download stats', values: list });
     })
   }
   catch (e) {

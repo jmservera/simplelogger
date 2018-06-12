@@ -5,11 +5,13 @@ var fs = require("fs");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  data=`${new Date().toISOString()};${getClientIp(req)};"${req.headers["user-agent"]}"\n`;
+  ip=getClientIp(req);
+  data=`${new Date().toISOString()};${ip};"${req.headers["user-agent"]}"\n`;
     fs.appendFile('./calls.log', data, (err) => {
         if (err) throw err;
       });
-    res.send("OK");
+  res.setHeader('Content-Type','application/json');
+  res.send(JSON.stringify({"result":"Ok", "clientIp":ip}));
 });
 
 // snippet taken from http://catapulty.tumblr.com/post/8303749793/heroku-and-node-js-how-to-get-the-client-ip-address

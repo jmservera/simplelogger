@@ -23,7 +23,16 @@ router.get('/', function (req, res, next) {
       list.push(a);
     }).on("end", function () {
       list.sort(function(a,b){return b.date-a.date;});
-      res.render('index', { title: 'Download stats', values: list });
+
+      var groupBy = function(xs, key) {
+        return xs.reduce(function(rv, x) {
+          (rv[x[key]] = rv[x[key]] || []).push(x);
+          return rv;
+        }, {});
+      };
+      var ls2=Object.keys(groupBy(list,"ip"));
+
+      res.render('index', { title: 'Download stats', values: list, length:list.length, difflength:ls2.length });
     })
   }
   catch (e) {

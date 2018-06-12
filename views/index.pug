@@ -3,6 +3,9 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  p
+    | Stats: Total downloads: #{length} - 
+    | Total unique downloads: <b>#{difflength}</b>
   ul
     each val, index in values
       li= val.date + "\t from ip: " + val.ip

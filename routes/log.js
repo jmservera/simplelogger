@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
         if (err) throw err;
       });
   res.setHeader('Content-Type','application/json');
-  res.send(JSON.stringify({"result":"Ok", "clientIp":ip}));
+  res.send(JSON.stringify({result:"Ok", clientIp:ip}));
 });
 
 // snippet taken from http://catapulty.tumblr.com/post/8303749793/heroku-and-node-js-how-to-get-the-client-ip-address

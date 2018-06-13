@@ -6,6 +6,17 @@ var transform = require('stream-transform');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  showList(req,res,next);
+});
+
+router.post('/',function(req,res,next){
+  if(req.body && req.body.newUri){
+    fs.writeFileSync("./nexturi.log",req.body.newUri);
+  }
+  showList(req,res,next);
+})
+
+function showList(req,res,next){
   list = []
   try {
     var parser = parse({ delimiter: ';' });
@@ -38,8 +49,6 @@ router.get('/', function (req, res, next) {
   catch (e) {
     console.error(e);
   }
-  //index=index.split(/\r?\n/);
-  //res.render('index', { title: 'Express', values: list });
-});
+}
 
 module.exports = router;

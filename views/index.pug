@@ -3,6 +3,12 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  form(action="", method="post")
+    label(for="newUri") Url:
+    input(type="url", name="newUri", placeholder="http://...", style="width: 480px")
+    input(type="submit", value="Save")
+
   p
     | Stats: Total downloads: #{length} - 
     | Total unique downloads: <b>#{difflength}</b>

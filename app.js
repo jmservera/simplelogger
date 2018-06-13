@@ -14,6 +14,7 @@ catch(e){
 
 var indexRouter = require('./routes/index');
 var logRouter = require('./routes/log');
+var currentRouter= require('./routes/current');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/log', logRouter);
+app.use('/current', currentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

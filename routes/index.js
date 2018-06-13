@@ -6,47 +6,74 @@ var transform = require('stream-transform');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  showList(req,res,next);
+  showList(req, res, next);
 });
 
-router.post('/',function(req,res,next){
-  if(req.body && req.body.newUri){
-    fs.writeFileSync("./nexturi.log",req.body.newUri);
+router.post('/', function (req, res, next) {
+  if (req.body && req.body.newUri) {
+
+    var uri = fs.readFileSync("./nexturi.log", "UTF8");
+    if (uri !== req.body.newUri) {
+
+      var ts = Date.now();
+      try {
+        fs.renameSync("./calls.log", `./calls_${ts}.log`);
+      } catch (e) {
+        console.error(e);
+      }
+      try {
+        fs.renameSync("./nexturi.log", `./nexturi_${ts}.log`)
+      } catch (e) {
+        console.error(e);
+      }
+      fs.writeFileSync("./nexturi.log", req.body.newUri);
+    }
+    else {
+      console.log("Uri not changed.");
+    }
   }
-  showList(req,res,next);
+  showList(req, res, next);
 })
 
-function showList(req,res,next){
+function showList(req, res, next) {
   list = []
   try {
     var parser = parse({ delimiter: ';' });
     var input = fs.createReadStream('./calls.log');
+    input.on("error", function (e) {
+      res.render('index', { title: 'Download stats', values: [], length: 0, difflength: 0 })
+      console.error(e);
+    });
     input.pipe(parser).on("data", function (data) {
-      ip=data[1].split(':')[0];
-      if(ip==""){
-        ip=data[1];
+      ip = data[1].split(':')[0];
+      if (ip == "") {
+        ip = data[1];
       }
-      var a={
-        date:new Date(data[0]),
-        ip:ip,
-        agent:data[2]
+      var a = {
+        date: new Date(data[0]),
+        ip: ip,
+        agent: data[2]
       }
       list.push(a);
     }).on("end", function () {
-      list.sort(function(a,b){return b.date-a.date;});
+      list.sort(function (a, b) { return b.date - a.date; });
 
-      var groupBy = function(xs, key) {
-        return xs.reduce(function(rv, x) {
+      var groupBy = function (xs, key) {
+        return xs.reduce(function (rv, x) {
           (rv[x[key]] = rv[x[key]] || []).push(x);
           return rv;
         }, {});
       };
-      var ls2=Object.keys(groupBy(list,"ip"));
+      var ls2 = Object.keys(groupBy(list, "ip"));
 
-      res.render('index', { title: 'Download stats', values: list, length:list.length, difflength:ls2.length });
+      res.render('index', { title: 'Download stats', values: list, length: list.length, difflength: ls2.length });
+    }).on("error", function (e) {
+      res.render('index', { title: 'Download stats', values: [], length: 0, difflength: 0 })
+      console.error(e);
     })
   }
   catch (e) {
+    res.render('index', { title: 'Download stats', values: [], length: 0, difflength: 0 })
     console.error(e);
   }
 }

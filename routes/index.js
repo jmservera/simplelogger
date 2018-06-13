@@ -12,17 +12,25 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   if (req.body && req.body.newUri) {
 
-    var uri = fs.readFileSync("./nexturi.log", "UTF8");
+    var uri = "";
+    if (fs.existsSync("./nexturi.log")) {
+      uri = fs.readFileSync("./nexturi.log", "UTF8");
+    }
+
     if (uri !== req.body.newUri) {
 
       var ts = Date.now();
       try {
-        fs.renameSync("./calls.log", `./calls_${ts}.log`);
+        if (fs.existsSync("./calls.log")) {
+          fs.renameSync("./calls.log", `./calls_${ts}.log`);
+        }
       } catch (e) {
         console.error(e);
       }
       try {
-        fs.renameSync("./nexturi.log", `./nexturi_${ts}.log`)
+        if (fs.existsSync("./nexturi.log")) {
+          fs.renameSync("./nexturi.log", `./nexturi_${ts}.log`);
+        }
       } catch (e) {
         console.error(e);
       }

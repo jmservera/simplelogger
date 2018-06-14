@@ -5,9 +5,12 @@ block content
   p Welcome to #{title}
 
   form(action="", method="post")
-    label(for="newUri") Url:
-    input(type="url", name="newUri", placeholder="http://...", style="width: 480px")
-    input(type="submit", value="Save")
+    div
+      label(for="newUri") Url:
+    div
+      textarea(name="newUri", cols="140", rows="5", placeholder="http://...")
+    div
+      input(type="submit", value="Save")
 
   p
     | Stats: Total downloads: #{length} - 

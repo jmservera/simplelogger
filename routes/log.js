@@ -6,7 +6,7 @@ var fs = require("fs");
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   ip=getClientIp(req);
-  data=`${new Date().toISOString()};${ip};"${req.headers["user-agent"]}"\n`;
+  data=`${new Date().toISOString()};${ip};"${req.headers["user-agent"]}";${req.query.uri}\n`;
     fs.appendFile('./calls.log', data, (err) => {
         if (err) throw err;
       });

@@ -15,7 +15,8 @@ catch(e){
 var indexRouter = require('./routes/index');
 var logRouter = require('./routes/log');
 var currentRouter= require('./routes/current');
-var current2Router= require('./routes/current2')
+var current2Router= require('./routes/current2');
+var telemetrylist= require('./routes/telemetrylist');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/', indexRouter);
 app.use('/log', logRouter);
 app.use('/current', currentRouter);
 app.use('/current2',current2Router);
+app.use('/telemetrylist',telemetrylist);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

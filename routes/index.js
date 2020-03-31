@@ -10,34 +10,48 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  if (req.body && req.body.newUri) {
+  if (req.body) {
 
-    var uri = "";
-    if (fs.existsSync("./nexturi.log")) {
-      uri = fs.readFileSync("./nexturi.log", "UTF8");
+    if (req.body.newUri !== undefined && req.body.newUri !== "") {
+
+      var uri = "";
+      if (fs.existsSync("./nexturi.log")) {
+        uri = fs.readFileSync("./nexturi.log", "UTF8");
+      }
+
+      if (uri !== req.body.newUri) {
+        var ts = Date.now();
+        try {
+          if (fs.existsSync("./calls.log")) {
+            fs.renameSync("./calls.log", `./calls_${ts}.log`);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+        try {
+          if (fs.existsSync("./nexturi.log")) {
+            fs.renameSync("./nexturi.log", `./nexturi_${ts}.log`);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+        fs.writeFileSync("./nexturi.log", req.body.newUri);
+      }
+      else {
+        console.log("Uri not changed.");
+      }
     }
 
-    if (uri !== req.body.newUri) {
-
+    if (req.body.logPages !== undefined && req.body.logPages !== "") {
       var ts = Date.now();
       try {
-        if (fs.existsSync("./calls.log")) {
-          fs.renameSync("./calls.log", `./calls_${ts}.log`);
+        if (fs.existsSync("./telemetrylist.log")) {
+          fs.renameSync("./telemetrylist.log", `./telemetrylist_${ts}.log`);
         }
       } catch (e) {
         console.error(e);
       }
-      try {
-        if (fs.existsSync("./nexturi.log")) {
-          fs.renameSync("./nexturi.log", `./nexturi_${ts}.log`);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-      fs.writeFileSync("./nexturi.log", req.body.newUri);
-    }
-    else {
-      console.log("Uri not changed.");
+      fs.writeFileSync("./telemetrylist.log", req.body.logPages);
     }
   }
   showList(req, res, next);
